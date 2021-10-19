@@ -1,3 +1,5 @@
+//H00334963, AhmedElZubair
+
 function Bear() {
   this.dBear = 100;
   this.htmlElement = document.getElementById("bear");
