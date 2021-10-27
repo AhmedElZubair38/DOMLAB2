@@ -44,7 +44,7 @@ function Bear() {
 
 function start() {
   //create bear
-  this.bear = new Bear();
+  bear = new Bear();
 
   // Add an event listener to the keypress event.
   document.addEventListener("keydown", moveBear, false);
@@ -54,21 +54,33 @@ function start() {
 
   //create bees
   makeBees();
-
-  document.getElementById("bearSpeed").addEventListener("change", bearspeed);
-
   updateBees();
+
+  document.getElementById("bearSpeed").addEventListener("change", setSpeed);
+
+  
 
   //take start time
   this.lastStingTime = new Date();
 }
 
  function setSpeed() {
+  
+  bear.dBear = Number(document.getElementById("bearSpeed").value)
 
-  var input = document.getElementById("bearSpeed").value;
   // conversion from string to integer
-  if(isNaN(input)) return 0; // value is not a number
-  var value = parseInt(input);
+  if(isNaN(input)){
+    console.log("please put a number!")
+  } 
+
+  fitBounds();
+
+}
+
+function bearspeed(){
+
+  var x = document.getElementById("bearSpeed").value;
+  this.dBear = x.setSpeed();
 
 }
 
@@ -96,12 +108,7 @@ function moveBear(e) {
   } // down key
 }
 
-function bearspeed(){
 
-    var x = document.getElementById("bearSpeed").value;
-    this.dBear = x.setSpeed();
-
-  }
 
 class Bee {
   
@@ -234,7 +241,7 @@ function updateBees() {
   // update loop for game //move the bees randomly
   moveBees();
   //use a fixed update period
-  let period = document.getElementById("periodTimer").value; //modify this to control refresh period
+  let period = Number(document.getElementById("periodTimer").value); //modify this to control refresh period
   //update the timer for the next move
   updateTimer = setTimeout("updateBees()", period);
 }
