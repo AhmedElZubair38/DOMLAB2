@@ -240,48 +240,31 @@ function moveBees() {
     let dy = getRandomInt(2 * speed) - speed;
     bees[i].move(dx, dy);  
     
-    isHit(bees[i], bear) //we add this to count stings
+  isHit(bees[i], bear) //we add this to count stings
     
   }
 }
 
-// function updateBees() {// update loop for game 
-  
-//   //move the bees randomly
-//   moveBees();
 
-//   let period = Number(document.getElementById("periodTimer").value); //use a fixed update period
-//   //update the timer for the next move
-//   updateTimer = setTimeout("updateBees()", period);
-    
-//   let score = Number(document.getElementById("hits").value);
-//   if (score >= 999) {
-//       clearTimeout(updateTimer);
-//       console.log("Game Over!");
-//   }
-// }
-
+var updateTimer
 function updateBees() {// update loop for game 
-  let score = Number(document.getElementById("hits").value);
-
-  do {
+  score = hits.innerHTML
+  
+  if (score >= 1000) {
+      clearTimeout(updateTimer);
+      console.log("Game Over!");
+  } 
+  
+  else {
   //move the bees randomly
   moveBees();
 
   let period = Number(document.getElementById("periodTimer").value); //use a fixed update period
   //update the timer for the next move
   updateTimer = setTimeout("updateBees()", period);
+  }
 
-
-}  while (score <= 999);
-
-clearTimeout(updateTimer);
-console.log("Game Over!");
 }
-  
-  
-  
-
 
 function isHit(defender, offender) {
 
