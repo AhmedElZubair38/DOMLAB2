@@ -252,7 +252,7 @@ function updateBees() {// update loop for game
   
   if (score >= 1000) {
       clearTimeout(updateTimer);
-      console.log("Game Over!");
+      window.alert("Game Over!");
   } 
   
   else {
