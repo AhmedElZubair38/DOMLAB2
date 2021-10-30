@@ -45,24 +45,36 @@ function Bear() {
 function start() {
   //create bear
   bear = new Bear();
-
   // Add an event listener to the keypress event.
   document.addEventListener("keydown", moveBear, false);
-
   //create new array for bees
-  this.bees = new Array();
-
+  bees = new Array();
   //create bees
   makeBees();
+  //update loop for game
   updateBees();
 
   document.getElementById("bearSpeed").addEventListener("change", setSpeed);
-
-  
+  //document.getElementById("nbBees").addEventListener("change", setBeesNumber);
 
   //take start time
-  this.lastStingTime = new Date();
+  lastStingTime = new Date();
+
+
 }
+
+// function setBeesNumber() {
+  
+//   bee.nbBees = Number(document.getElementById("bearSpeed").value)
+
+//   // conversion from string to integer
+//   if(isNaN(input)){
+//     console.log("please put a number!")
+//   } 
+
+//   fitBounds();
+
+// }
 
  function setSpeed() {
   
@@ -77,12 +89,7 @@ function start() {
 
 }
 
-function bearspeed(){
 
-  var x = document.getElementById("bearSpeed").value;
-  this.dBear = x.setSpeed();
-
-}
 
 function moveBear(e) {
   //codes of the four keys
@@ -219,7 +226,7 @@ function makeBees() {
     var num = i;
     var bee = new Bee(num); //create object and its IMG element
     bee.display(); //display the bee
-    bees.push(bee); //add the bee object to the bees array
+    this.bees.push(bee); //add the bee object to the bees array
     i++;
   }
 }
@@ -233,38 +240,57 @@ function moveBees() {
     let dy = getRandomInt(2 * speed) - speed;
     bees[i].move(dx, dy);  
     
-    isHit(bees[i], bear); //we add this to count stings
+    isHit(bees[i], bear) //we add this to count stings
+    
   }
 }
 
-function updateBees() {
-  // update loop for game //move the bees randomly
+// function updateBees() {// update loop for game 
+  
+//   //move the bees randomly
+//   moveBees();
+
+//   let period = Number(document.getElementById("periodTimer").value); //use a fixed update period
+//   //update the timer for the next move
+//   updateTimer = setTimeout("updateBees()", period);
+    
+//   let score = Number(document.getElementById("hits").value);
+//   if (score >= 999) {
+//       clearTimeout(updateTimer);
+//       console.log("Game Over!");
+//   }
+// }
+
+function updateBees() {// update loop for game 
+  let score = Number(document.getElementById("hits").value);
+
+  do {
+  //move the bees randomly
   moveBees();
-  //use a fixed update period
-  let period = Number(document.getElementById("periodTimer").value); //modify this to control refresh period
+
+  let period = Number(document.getElementById("periodTimer").value); //use a fixed update period
   //update the timer for the next move
   updateTimer = setTimeout("updateBees()", period);
+
+
+}  while (score <= 999);
+
+clearTimeout(updateTimer);
+console.log("Game Over!");
 }
+  
+  
+  
+
 
 function isHit(defender, offender) {
-  
+
   if (overlap(defender, offender)) {
-    //check if the two image overlap
-    let score = hits.innerHTML;
-    score = Number(score) + 1; //increment the score
-    hits.innerHTML = score; //display the new score
-    //calculate longest duration
-    let newStingTime = new Date();
-    let thisDuration = newStingTime - lastStingTime;
-    let lastStingTime = newStingTime;
-    let longestDuration = Number(duration.innerHTML);
-    if (longestDuration === 0) {
-      longestDuration = thisDuration;
-    } else {
-      if (longestDuration < thisDuration) longestDuration = thisDuration;
-      document.getElementById("duration").innerHTML = longestDuration;
+      //check if the two image overlap
+      score = hits.innerHTML;
+      score = Number(score) + 1; //increment the score
+      hits.innerHTML = score; //display the new score
     }
-  }
 }
 
 function overlap(element1, element2) {
