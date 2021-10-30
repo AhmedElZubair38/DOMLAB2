@@ -55,26 +55,11 @@ function start() {
   updateBees();
 
   document.getElementById("bearSpeed").addEventListener("change", setSpeed);
-  //document.getElementById("nbBees").addEventListener("change", setBeesNumber);
 
   //take start time
   lastStingTime = new Date();
 
-
 }
-
-// function setBeesNumber() {
-  
-//   bee.nbBees = Number(document.getElementById("bearSpeed").value)
-
-//   // conversion from string to integer
-//   if(isNaN(input)){
-//     console.log("please put a number!")
-//   } 
-
-//   fitBounds();
-
-// }
 
  function setSpeed() {
   
@@ -88,7 +73,6 @@ function start() {
   fitBounds();
 
 }
-
 
 
 function moveBear(e) {
