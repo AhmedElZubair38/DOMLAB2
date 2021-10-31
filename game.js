@@ -64,7 +64,6 @@ function start() {
  function setSpeed() {
   
   bear.dBear = Number(document.getElementById("bearSpeed").value)
-
   // conversion from string to integer
   if(isNaN(input)){
     console.log("please put a number!")
@@ -240,12 +239,12 @@ function updateBees() {// update loop for game
   } 
   
   else {
-  //move the bees randomly
-  moveBees();
+      //move the bees randomly
+      moveBees();
 
-  let period = Number(document.getElementById("periodTimer").value); //use a fixed update period
-  //update the timer for the next move
-  updateTimer = setTimeout("updateBees()", period);
+      let period = Number(document.getElementById("periodTimer").value); //use a fixed update period
+      //update the timer for the next move
+      updateTimer = setTimeout("updateBees()", period);
   }
 
 }
@@ -259,15 +258,26 @@ function isHit(defender, offender) {
       hits.innerHTML = score; //display the new score
 
       //calculate longest duration
+      
+      lastStingTime = 0
+
+      document.addEventListener('keydown', logKey);
+
+      function logKey(e) {
+        lastStingTime = 0
+      }  
+      
       let newStingTime = new Date();
       let thisDuration = newStingTime - lastStingTime;
       lastStingTime = newStingTime;
       let longestDuration = Number(duration.innerHTML);
+      
       if (longestDuration === 0) {
-      longestDuration = thisDuration;
+         longestDuration = thisDuration;
       } else {
-      if (longestDuration < thisDuration) 
-      longestDuration = thisDuration;
+           if (longestDuration < thisDuration) 
+               longestDuration = thisDuration;
+      
       document.getElementById("duration").innerHTML = longestDuration;
       }
   }
