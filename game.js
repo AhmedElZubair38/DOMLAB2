@@ -42,24 +42,47 @@ function Bear() {
   
 }
 
-function start() {
-  //create bear
-  bear = new Bear();
-  // Add an event listener to the keypress event.
-  document.addEventListener("keydown", moveBear, false);
-  //create new array for bees
-  bees = new Array();
-  //create bees
-  makeBees();
-  //update loop for game
-  updateBees();
+// function start() {{{
+//   //create bear
+//   this.bear = new Bear();
 
-  document.getElementById("bearSpeed").addEventListener("change", setSpeed);
+//   // Add an event listener to the keypress event.
+//   document.addEventListener("keydown", function(){ lastStingTime = new Date(); }  ,   {once: true}  );
+//   document.addEventListener("keydown", moveBear, false);
 
-  //take start time
-  lastStingTime = new Date();
+//   //create new array for bees
+//   bees = new Array();
 
-}
+//   //create bees
+//   makeBees();
+
+//   //update loop for game
+//   updateBees();
+
+//   document.getElementById("bearSpeed").addEventListener("change", setSpeed);
+  
+//   //take start time
+//   //lastStingTime = new Date();
+
+// }}}
+
+//  function setTime(e) {
+
+//   const KEYUP = 38;
+//   const KEYDOWN = 40;
+//   const KEYLEFT = 37;
+//   const KEYRIGHT = 39;
+
+//   if (e.keyCode == KEYRIGHT || e.keyCode == KEYLEFT || e.keyCode == KEYUP || e.keyCode == KEYDOWN) {
+    
+//     //newStart = new Date();
+//     newStart = true;
+//     document.removeEventListener("keydown", setTime, false)
+    
+//   }
+
+//   document.removeEventListener("keydown", setTime, false)
+//  }
 
  function setSpeed() {
   
@@ -68,9 +91,7 @@ function start() {
   if(isNaN(input)){
     console.log("please put a number!")
   } 
-
   fitBounds();
-
 }
 
 
@@ -83,22 +104,24 @@ function moveBear(e) {
 
   if (e.keyCode == KEYRIGHT) {
     bear.move(1, 0);
+    newStart = true;
   } // right key
 
   if (e.keyCode == KEYLEFT) {
     bear.move(-1, 0);
+    newStart = true;
   } // left key
 
   if (e.keyCode == KEYUP) {
     bear.move(0, -1);
+    newStart = true;
   } // up key
 
   if (e.keyCode == KEYDOWN) {
     bear.move(0, 1);
+    newStart = true;
   } // down key
 }
-
-
 
 class Bee {
   
@@ -209,7 +232,7 @@ function makeBees() {
     var num = i;
     var bee = new Bee(num); //create object and its IMG element
     bee.display(); //display the bee
-    this.bees.push(bee); //add the bee object to the bees array
+    bees.push(bee); //add the bee object to the bees array
     i++;
   }
 }
@@ -222,65 +245,54 @@ function moveBees() {
     let dx = getRandomInt(2 * speed) - speed;
     let dy = getRandomInt(2 * speed) - speed;
     bees[i].move(dx, dy);  
-    
-  isHit(bees[i], bear) //we add this to count stings
+     
+    isHit(bees[i], bear);
     
   }
 }
 
-
-var updateTimer
+// var updateTimer
 function updateBees() {// update loop for game 
+
+  //move the bees randomly
+  moveBees();
+
   score = hits.innerHTML
-  
-  if (score >= 1000) {
-      clearTimeout(updateTimer);
-      window.alert("Game Over!");
+  var updateTimer
+
+  if (score != 1000) {
+
+    let period = Number(document.getElementById("periodTimer").value); //use a fixed update period
+    var updateTimer = setTimeout("updateBees()", period); //update the timer for the next move
   } 
   
   else {
-      //move the bees randomly
-      moveBees();
-
-      let period = Number(document.getElementById("periodTimer").value); //use a fixed update period
-      //update the timer for the next move
-      updateTimer = setTimeout("updateBees()", period);
+      
+      clearTimeout(updateTimer);
+      window.alert("Game Over!");
   }
 
 }
 
-function isHit(defender, offender) {
-
-  if (overlap(defender, offender)) {
-      //check if the two image overlap
-      score = hits.innerHTML;
-      score = Number(score) + 1; //increment the score
-      hits.innerHTML = score; //display the new score
-
+function isHit(defender, offender) { 
+  if (overlap(defender, offender)) { 
+      //check if the two image overlap 
+      let score = hits.innerHTML; 
+      score = Number(score) + 1; //increment the score 
+      hits.innerHTML = score; //display the new score 
       //calculate longest duration
-      
-      lastStingTime = 0
-
-      document.addEventListener('keydown', logKey);
-
-      function logKey(e) {
-        lastStingTime = 0
-      }  
-      
-      let newStingTime = new Date();
-      let thisDuration = newStingTime - lastStingTime;
-      lastStingTime = newStingTime;
-      let longestDuration = Number(duration.innerHTML);
-      
-      if (longestDuration === 0) {
-         longestDuration = thisDuration;
-      } else {
-           if (longestDuration < thisDuration) 
-               longestDuration = thisDuration;
-      
+      let newStingTime = new Date(); 
+      let thisDuration = newStingTime - lastStingTime; 
+      lastStingTime = newStingTime; 
+      let longestDuration = Number(duration.innerHTML); 
+      if (longestDuration === 0) { 
+          longestDuration = thisDuration; 
+      } 
+      else { 
+          if (longestDuration < thisDuration) longestDuration = thisDuration; 
+      } 
       document.getElementById("duration").innerHTML = longestDuration;
-      }
-  }
+  } 
 }
 
 
@@ -316,3 +328,48 @@ function overlap(element1, element2) {
   }
   return true;
 }
+
+function restartButton() {
+  document.location.href = "";
+  //start();
+}
+
+function addBeeButton(){
+  
+  let nbBees = document.getElementById("nbBees").value;
+  
+  nbBees = Number(nbBees);
+
+  nBees = nbBees + 1;
+
+  var bee = new Bee(nBees);
+  bees.push(bee);
+  bee.display(); 
+  
+}
+
+function start() {{{
+  //create bear
+  this.bear = new Bear();
+
+  // Add an event listener to the keypress event.
+  document.addEventListener("keydown", function(){ lastStingTime = new Date(); }  ,   {once: true}  );
+  document.addEventListener("keydown", moveBear, false);
+
+  //create new array for bees
+  bees = new Array();
+
+  //create bees
+  makeBees();
+
+  //update loop for game
+  updateBees();
+
+  document.getElementById("bearSpeed").addEventListener("change", setSpeed);
+  //document.getElementById("Restart").addEventListener("click", again);
+  
+  //take start time
+  //lastStingTime = new Date();
+
+}}}
+
