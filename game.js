@@ -251,8 +251,8 @@ function moveBees() {
   }
 }
 
-// var updateTimer
-function updateBees() {// update loop for game 
+
+function updateBees() { // update loop for game 
 
   //move the bees randomly
   moveBees();
@@ -263,7 +263,7 @@ function updateBees() {// update loop for game
   if (score != 1000) {
 
     let period = Number(document.getElementById("periodTimer").value); //use a fixed update period
-    var updateTimer = setTimeout("updateBees()", period); //update the timer for the next move
+    updateTimer = setTimeout("updateBees()", period); //update the timer for the next move
   } 
   
   else {
@@ -329,16 +329,22 @@ function overlap(element1, element2) {
   return true;
 }
 
+// function restartButton() {
+//   document.location.href = "";
+// }
+
 function restartButton() {
-  document.location.href = "";
-  //start();
+  hits.innerHTML = 0;
+  duration.innerHTML = 0;
+  document.getElementById("board").removeChild(document.getElementById("board").lastElementChild);
+  start();
 }
 
 function addBeeButton(){
   
-  let nbBees = document.getElementById("nbBees").value;
+  //let nbBees = document.getElementById("nbBees").value;
   
-  nbBees = Number(nbBees);
+  let nbBees = Number(document.getElementById("nbBees").value);
 
   nBees = nbBees + 1;
 
